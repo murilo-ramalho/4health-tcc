@@ -2,13 +2,41 @@
 require_once 'init.php';
 $PDO = db_connect();
 
+session_start();
+if((!isset($_SESSION['email']) == true ) and (!isset($_SESSION['senha']) == true) and (!isset($_SESSION['name']))) {
+    unset($_SESSION['email']);
+    unset($_SESSION['senha']);
+    unset($_SESSION['name']);
+    header('Location: entrada.php');
+}
+$logado = $_SESSION['name'];
+
 $diasemana = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado');
 $data = date('Y-m-d');
-$dia = date('d');
+$dia = date('d-m');
 $diasemana_numero = date('w', strtotime($data));
 
+
+//cpf paciente
+$sql_paciente = "SELECT * from paciente where nome= :nome and email= :email";
+$stmt_paciente = $PDO->prepare($sql_paciente);
+$stmt_paciente->bindParam(':nome', $nome);
+$stmt_paciente->bindParam(':email', $email);
+$stmt_paciente->execute();
+$paciente = $stmt_paciente->fetch(PDO::FETCH_ASSOC);
+$cpf = $paciente['cpf'];
+
 //agendamento
-//  $sql_agendamento ="SELECT COUNT(*) AS "
+$sql_consulta_count = "SELECT COUNT(*) AS total from consulta where cpf_paciente = :cpf";
+$sql_consulta = "SELECT data, hora from consulta where cpf_paciente = :cpf";
+$stmt->bindParam(':cpf', $cpf);
+
+$stmt_consulta_count = $PDO->prepare($sql_consulta_count);
+$stmt_consulta_count->execute();
+$total_consulta = $stmt_consulta_count->fetchColumn();
+
+$stmt_consulta = $PDO->prepare($sql_consulta);
+$stmt_consulta->execute();
 
 //faq
 $sql_faq_count = "SELECT COUNT(*) AS total FROM faq ORDER BY nome ASC";
@@ -21,17 +49,28 @@ $total_faq = $stmt_faq_count->fetchColumn();
 $stmt_faq = $PDO->prepare($sql_faq);
 $stmt_faq->execute();
 
-//medico
-$sql_medico_count = "SELECT COUNT(*) AS total FROM medico ORDER BY horario ASC";
-$sql_medico = "SELECT crm, nome, especialidade FROM medico ORDER BY horario ASC";
+//medico manhã
+$sql_medico_manha_count = "SELECT COUNT(*) AS total FROM medico where horario = '9:00:00'";
+$sql_medico_manha = "SELECT crm, nome, especialidade FROM medico where horario = '9:00:00'";
 
-$stmt_medico_count = $PDO->prepare($sql_medico_count);
-$stmt_medico_count->execute();
-$total_medico = $stmt_medico_count->fetchColumn();
+$stmt_medico_manha_count = $PDO->prepare($sql_medico_manha_count);
+$stmt_medico_manha_count->execute();
+$total_medico_manha = $stmt_medico_manha_count->fetchColumn();
 
-$stmt_medico = $PDO->prepare($sql_medico);
-$stmt_medico->execute();
+$stmt_medico_manha = $PDO->prepare($sql_medico_manha);
+$stmt_medico_manha->execute();
  
+//medico tarde
+$sql_medico_tarde_count = "SELECT COUNT(*) AS total FROM medico where horario = '13:00:00'";
+$sql_medico_tarde = "SELECT crm, nome, especialidade FROM medico where horario = '13:00:00'";
+
+$stmt_medico_tarde_count = $PDO->prepare($sql_medico_tarde_count);
+$stmt_medico_tarde_count->execute();
+$total_medico_tarde = $stmt_medico_tarde_count->fetchColumn();
+
+$stmt_medico_tarde = $PDO->prepare($sql_medico_tarde);
+$stmt_medico_tarde->execute();
+
 //remedio
 $sql_remedio_count = "SELECT COUNT(*) AS total FROM medicamentos ORDER BY nome ASC";
 $sql_remedio = "SELECT nome,tipo,dosagem,aplicacao,finalidade, quantidade FROM medicamentos";
@@ -43,14 +82,6 @@ $total_remedio = $stmt_remedio_count->fetchColumn();
 $stmt_remedio = $PDO->prepare($sql_remedio);
 $stmt_remedio->execute();
 
-session_start();
-if((!isset($_SESSION['email']) == true ) and (!isset($_SESSION['senha']) == true) and (!isset($_SESSION['name']))) {
-    unset($_SESSION['email']);
-    unset($_SESSION['senha']);
-    unset($_SESSION['name']);
-    header('Location: entrada.php');
-}
-$logado = $_SESSION['name'];
 ?>
 
 <!DOCTYPE html>
@@ -105,6 +136,26 @@ $logado = $_SESSION['name'];
                     </div>
                     <div class="card-body">
                         <h2 class="card-text">Você está logado</h2> 
+
+                        <div>
+                            <?php if($total_consulta > 0): ?>
+                                <table>
+                                    <h3>CONSULTAS MARCADAS</h3>
+                                    <thead>
+                                        <th>DATA</th>
+                                        <th>HORA</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($consulta = $stmt_consulta->fetch(PDO::FETCH_ASSOC)): ?>
+                                        <tr>
+                                            <td><?$consulta['data']; ?></td>
+                                            <td><?$consulta['hora']; ?></td>
+                                        </tr>
+                                        <?php endwhile; ?> 
+                                    </tbody>  
+                                </table>
+                            <?php endif; ?>
+                        </div>
 
                         <a href="sair.php" class="btn m-3">Sair</a>
                         <a href="excluir.php" class="btn m-3" onclick="return confirm('Tem certeza de que deseja Exclir a cua conta?');">Excluir</a>
@@ -194,13 +245,20 @@ $logado = $_SESSION['name'];
             <div class="content">
                 <h3>Agendamentos</h3>
                 <?php
-                    echo "<h2>Hoje - $dia <u>$diasemana[$diasemana_numero]</u></h2>";
+                    echo "<h2>Hoje: $dia  <u>$diasemana[$diasemana_numero]-feira</u></h2>";
                 ?>
-                <?php if ($total_medico > 0): ?>
+                <?php if ($total_medico_manha > 0 || $total_medico_tarde > 0): ?>
+                    <h2>Manhã:</h2>
                     <form action="consulta.php" method="POST">
-                        <?php while ($medico = $stmt_medico->fetch(PDO::FETCH_ASSOC)): ?>
-                            <input type="radio" id="medico1" name="medico1" value="medico1">
-                            <label for="medico1"><?=$medico['nome']?>, <?=$medico['especialidade']?></label><br>
+                        <?php while ($medico_manha = $stmt_medico_manha->fetch(PDO::FETCH_ASSOC)): ?>
+                            <input type="radio" id="medico1" name="medico1" value="<?=$medico_manha['crm']?>">
+                            <label for="medico1"><?=$medico_manha['nome']?>, <?=$medico_manha['especialidade']?></label><br>
+                        <?php endwhile; ?>
+                    <h2>tarde:</h2>
+                    <form action="consulta.php" method="POST">
+                        <?php while ($medico_tarde = $stmt_medico_tarde->fetch(PDO::FETCH_ASSOC)): ?>
+                            <input type="radio" id="medico1" name="medico1" value="<?=$medico_tarde['crm']?>">
+                            <label for="medico1"><?=$medico_tarde['nome']?>, <?=$medico_tarde['especialidade']?></label><br>
                         <?php endwhile; ?>
                         <input type="submit" value="enviar" class="btn">
                     </form>
