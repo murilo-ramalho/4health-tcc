@@ -18,6 +18,9 @@ $diasemana_numero = date('w', strtotime($data));
 
 
 //cpf paciente
+$nome = $_SESSION['name'];
+$email = $_SESSION['email'];
+
 $sql_paciente = "SELECT * from paciente where nome= :nome and email= :email";
 $stmt_paciente = $PDO->prepare($sql_paciente);
 $stmt_paciente->bindParam(':nome', $nome);
@@ -28,15 +31,16 @@ $cpf = $paciente['cpf'];
 
 //agendamento
 $sql_consulta_count = "SELECT COUNT(*) AS total from consulta where cpf_paciente = :cpf";
-$sql_consulta = "SELECT data, hora from consulta where cpf_paciente = :cpf";
-$stmt->bindParam(':cpf', $cpf);
-
 $stmt_consulta_count = $PDO->prepare($sql_consulta_count);
+$stmt_consulta_count->bindParam(':cpf', $cpf);
 $stmt_consulta_count->execute();
 $total_consulta = $stmt_consulta_count->fetchColumn();
 
+$sql_consulta = "SELECT data, hora from consulta where cpf_paciente = :cpf";
 $stmt_consulta = $PDO->prepare($sql_consulta);
+$stmt_consulta->bindParam(':cpf', $cpf);
 $stmt_consulta->execute();
+$consulta = $stmt_consulta->fetchColumn();
 
 //faq
 $sql_faq_count = "SELECT COUNT(*) AS total FROM faq ORDER BY nome ASC";
@@ -139,7 +143,7 @@ $stmt_remedio->execute();
 
                         <div>
                             <?php if($total_consulta > 0): ?>
-                                <table>
+                                <table class="table table-hover">
                                     <h3>CONSULTAS MARCADAS</h3>
                                     <thead>
                                         <th>DATA</th>
@@ -148,8 +152,8 @@ $stmt_remedio->execute();
                                     <tbody>
                                         <?php while ($consulta = $stmt_consulta->fetch(PDO::FETCH_ASSOC)): ?>
                                         <tr>
-                                            <td><?$consulta['data']; ?></td>
-                                            <td><?$consulta['hora']; ?></td>
+                                            <td><?=$consulta['data']; ?></td>
+                                            <td><?=$consulta['hora']; ?></td>
                                         </tr>
                                         <?php endwhile; ?> 
                                     </tbody>  
@@ -158,7 +162,7 @@ $stmt_remedio->execute();
                         </div>
 
                         <a href="sair.php" class="btn m-3">Sair</a>
-                        <a href="excluir.php" class="btn m-3" onclick="return confirm('Tem certeza de que deseja Exclir a cua conta?');">Excluir</a>
+                        <a href="excluir.php" class="btn m-3" onclick="return confirm('Tem certeza de que deseja Excluir a cua conta?');">Excluir</a>
                     </div>
                 </div>
                 </ul>
@@ -389,7 +393,7 @@ $stmt_remedio->execute();
 
             <section class="book" id="book">
             <br><br>
-                <h1 class="heading"> <span>sugesões e reclamações</span></h1>
+                <h1 class="heading"> <span>peça ajuda Ou conte sua experiencia</span></h1>
 
                 <div class="row">
 
