@@ -16,6 +16,8 @@ require_once 'init.php';
 </head>
 <body>
     <div class="container">
+
+        <!--LOGIN-->
         <div class="content first-content">
             <div class="first-column">
                 <h2 class="title title-primary">Bem vindo!</h2>
@@ -46,8 +48,10 @@ require_once 'init.php';
                     </label> 
                     <input type="submit" value="Cadastrar" class="btn btn-outline-success" style="background: #16a085;">      
                 </form>
-            </div><!-- second column -->
-        </div><!-- first content -->
+            </div>
+        </div>
+
+        <!--CADASTRO-->
         <div class="content second-content">
             <div class="first-column">
                 <h2 class="title title-primary">Olá!</h2>
@@ -66,35 +70,32 @@ require_once 'init.php';
                     <label class="label-input" for="">
                         <i class="far fa-envelope icon-modify"></i>
                         <input type="email" placeholder="Email" name="email2" id="email2">
-                    </label>
-                
+                    </label>       
                     <label class="label-input" for="">
                         <i class="fas fa-lock icon-modify"></i>
                         <input type="password" placeholder="Senha" name="senha2" id="senha2">
                     </label>
-                
-                    <!--a class="password" href="#">Esqueceu sua senha?</a-->
-                    <input type="submit" value="Login" class="btn btn-outline-success" style="background: #16a085;">  
+                    <input type="submit" value="Login" class="btn btn-outline-success" style="background: #16a085;" onclick="validarcpf()">  
                 </form>
-            </div><!-- second column -->
-        </div><!-- second-content -->
+            </div>
+        </div>
     </div>
-    <script src="https://unpkg.com/blip-chat-widget" type="text/javascript">
-    <script src="https://unpkg.com/blip-chat-widget" type="text/javascript">
+
     </script>
-    <script>
-        (function () {
-            window.onload = function () {
-                new BlipChat()
-                .withAppKey('Y2hhdGJvdDRoZWFsdGg6YjQzZWRjNGUtNDJjZi00MTA2LTg5YmUtZWU4MTUyOTkzMTRj')
-                .withButton({"color":"#16a085","icon":""})
-                .withCustomCommonUrl('https://murilo-ramalho-7ginm.chat.blip.ai/')
-                .build();
-            }
-        })();
-    </script>
-                                
-                                
+        <script src="https://unpkg.com/blip-chat-widget" type="text/javascript">
+        <script src="https://unpkg.com/blip-chat-widget" type="text/javascript">
+        </script>
+        <script>
+            (function () {
+                window.onload = function () {
+                    new BlipChat()
+                    .withAppKey('Y2hhdGJvdDRoZWFsdGg6YjQzZWRjNGUtNDJjZi00MTA2LTg5YmUtZWU4MTUyOTkzMTRj')
+                    .withButton({"color":"#16a085","icon":""})
+                    .withCustomCommonUrl('https://murilo-ramalho-7ginm.chat.blip.ai/')
+                    .build();
+                }
+            })();
+    </script>                
     <script src="js/login.js"></script>
 </body>
 </html>

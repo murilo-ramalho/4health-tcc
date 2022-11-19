@@ -90,99 +90,78 @@ $stmt_remedio->execute();
 
 <!DOCTYPE html>
 <html lang="PT-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4Health</title>
-
-
-    <!-- bootstrap  -->
+    <!--LINKS CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-
-    <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="icon" type="image/x-icon" href="image/icone.PNG">
 
 </head>
 
 <body>
-
-    <!-- header section starts  -->
-
     <header class="header">
-
+        <!--NAVBAR PARA LOCALIZAÇÃO-->
         <a href="#" class="logo"> <i class="fas fa-heartbeat"></i> 4Health </a>
-
         <nav class="navbar">
+            <!--SERVIÇOS-->
             <a href="#home">início</a>
-            <a href="#services">Serviços</a> <!--  services troquei pra agendamento-->
+            <a href="#services">Serviços</a>
             <a href="#about">Agendamentos</a>
-            <!--tradução-->
             <a href="#drugs">Medicamentos</a>
             <a href="#review">review</a>
-            <!--a href="entrada.php">login</a-->
+            <!--CONTA DO USUARIO-->
             <div class="dropdown dropstart"  style="margin-left: 10px">
                 <button type="button" class="m-0 btn" data-bs-toggle="dropdown"><h1>perfil</h1></button>
                 <ul class="dropdown-menu m-5" style="margin: 10px">
-                <div class="card" style="width:400px; font-size: 20px;">
-                    <div style="border: 1px solid black;">
-                        <img class="card-img-top" src="image/perfil.PNG" alt="Card image" style="width:30%">
-                        <?php
-                            echo "<h1> Bem vindo <u>$logado</u></h1>";
-                        ?>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="card-text">Você está logado</h2> 
-
-                        <div>
-                            <?php if($total_consulta > 0): ?>
-                                <table class="table table-hover">
-                                    <h3>CONSULTAS MARCADAS</h3>
-                                    <thead>
-                                        <th>DATA</th>
-                                        <th>HORA</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php while ($consulta = $stmt_consulta->fetch(PDO::FETCH_ASSOC)): ?>
-                                        <tr>
-                                            <td><?=$consulta['data']; ?></td>
-                                            <td><?=$consulta['hora']; ?></td>
-                                        </tr>
-                                        <?php endwhile; ?> 
-                                    </tbody>  
-                                </table>
-                            <?php endif; ?>
+                    <div class="card" style="width:400px; font-size: 20px;">
+                        <div style="border: 1px solid black;">
+                            <img class="card-img-top" src="image/perfil.PNG" alt="Card image" style="width:30%">
+                            <?php
+                                echo "<h1> Bem vindo <u>$logado</u></h1>";
+                            ?>
                         </div>
-
-                        <a href="sair.php" class="btn m-3">Sair</a>
-                        <a href="excluir.php" class="btn m-3" onclick="return confirm('Tem certeza de que deseja Excluir a cua conta?');">Excluir</a>
+                        <div class="card-body">
+                            <h2 class="card-text">Você está logado</h2> 
+                            <div>
+                                <?php if($total_consulta > 0): ?>
+                                    <table class="table table-hover">
+                                        <h3>CONSULTAS MARCADAS</h3>
+                                        <thead>
+                                            <th>DATA</th>
+                                            <th>HORA</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php while ($consulta = $stmt_consulta->fetch(PDO::FETCH_ASSOC)): ?>
+                                            <tr>
+                                                <td><?=$consulta['data']; ?></td>
+                                                <td><?=$consulta['hora']; ?></td>
+                                            </tr>
+                                            <?php endwhile; ?> 
+                                        </tbody>  
+                                    </table>
+                                <?php endif; ?>
+                            </div>
+                            <a href="sair.php" class="btn m-3">Sair</a>
+                            <a href="excluir.php" class="btn m-3" onclick="return confirm('Tem certeza de que deseja Excluir a cua conta?');">Excluir</a>
+                        </div>
                     </div>
-                </div>
                 </ul>
             </div>
         </nav>
-
         <div id="menu-btn" class="fas fa-bars"></div>
-
     </header>
 
-    <!-- header section ends -->
-
-    <!-- home section starts  -->
-
+    <!--PRIMEIRA IMPRESSÃO-->
     <section class="home" id="home">
-
         <div class="image">
             <img src="image/home-img.svg" alt="">
         </div>
-
         <div class="content">
             <?php
                 echo "<h3>4health, Bem vindo(a) $logado</h3>"
@@ -192,16 +171,9 @@ $stmt_remedio->execute();
         </div>
     </section>
 
-    <!-- home section ends -->
-
-    <!-- icons section starts  -->
-
     <section class="icons-container"></section>
 
-    <!-- icons section ends -->
-
-    <!-- services section starts  -->
-
+    <!--TODAS AS SESSÕES-->
     <section class="services" id="services">
         <h1 class="heading"> Nossos <span>Serviços</span> </h1>
         <div class="box-container">
@@ -232,20 +204,13 @@ $stmt_remedio->execute();
         </div>
     </section>
 
-    <!-- services section ends -->
-
-    <!-- about section starts  -->
-
+    <!--AGENDAMENTO-->
     <section class="about" id="about">
-
         <h1 class="heading"> <span>Consultas</span> </h1>
-
         <div class="row">
-
             <div class="image">
                 <img src="image/about-img.svg" alt="">
             </div>
-
             <div class="content">
                 <h3>Agendamentos</h3>
                 <?php
@@ -255,14 +220,14 @@ $stmt_remedio->execute();
                     <h2>Manhã:</h2>
                     <form action="consulta.php" method="POST">
                         <?php while ($medico_manha = $stmt_medico_manha->fetch(PDO::FETCH_ASSOC)): ?>
-                            <input type="radio" id="medico1" name="medico1" value="<?=$medico_manha['crm']?>">
-                            <label for="medico1"><?=$medico_manha['nome']?>, <?=$medico_manha['especialidade']?></label><br>
+                            <input type="radio" id="medico1" name="medico1" value="<?=$medico_manha['crm']?>" checked>
+                            <label for="medico1"><h4><?=$medico_manha['nome']?>, <?=$medico_manha['especialidade']?></h4></label><br>
                         <?php endwhile; ?>
                     <h2>tarde:</h2>
                     <form action="consulta.php" method="POST">
                         <?php while ($medico_tarde = $stmt_medico_tarde->fetch(PDO::FETCH_ASSOC)): ?>
                             <input type="radio" id="medico1" name="medico1" value="<?=$medico_tarde['crm']?>">
-                            <label for="medico1"><?=$medico_tarde['nome']?>, <?=$medico_tarde['especialidade']?></label><br>
+                            <label for="medico1"><h4><?=$medico_tarde['nome']?>, <?=$medico_tarde['especialidade']?></h4></label><br>
                         <?php endwhile; ?>
                         <input type="submit" value="enviar" class="btn">
                     </form>
@@ -271,69 +236,39 @@ $stmt_remedio->execute();
                 <?php endif; ?>
             </div>
         </div>
-
     </section> 
 
-    <!-- about section ends -->
-
-    <!-- medicamentos section starts  -->
-
+    <!--REMEDIOS-->
     <section class="drugs" id="drugs">
-    <br><br>
+        <br><br>
         <h1 class="heading"> <span>Medicamentos</span> </h1>
         <div class="tabela-preco">
-
             <div class="card-preco">
                 <h3 class="card-preco-header">Dipirona sódica</h3>
                 <div class="imagemed">
                     <img src=image/dipirona.png alt="Dipirona Sódica">
                 </div>
-                <div class="preco"><sup></sup><span></span></div>
-                <ul>
-
-                </ul>
-                <a href="#" class="btn">Disponível</a>
-
+                <button class="btn">Disponível</button>
             </div>
-
             <div class="card-preco">
                 <h3 class="card-preco-header">Cloridrato de Fluoxetina</h3>
                 <div class="imagemed">
                     <img src=image/cloridrato_fluoxetina.png alt="Cloridato de Fluoxetina">
                 </div>
-                <div class="preco"><sup></sup><span></span></div>
-                <ul>
-
-                </ul>
-                <a href="#" class="btn">Disponível</a>
-
+                <button class="btn">Disponível</button>
             </div>
-
             <div class="card-preco">
                 <h3 class="card-preco-header">Codeina</h3>
                 <div class="imagemed">
                     <img src=image/codein.png alt="Codeina">
                 </div>
-                <div class="preco"><sup></sup><span></span></div>
-                <ul>
-
-                </ul>
-                <a href="#" class="btn_soldOff">Indisponível</a>
-
+                <button class="btn_soldOff">Indisponível</button>
             </div>
-
             <div class="Ver-mais">
-
             </div>
-
-            <div class="tabela-preco">
-
-
-
-            </div>
-
         </div>
-        <!--<div class="card border-light mb-3" style="max-width: 18rem;">-->
+
+        <!--VER TODOS OS MEDICAMENTOS DISPONIVEIS-->
         <div class="card border-light ms-3 me-3">
             <div class="row">
                 <div class="col-5">&nbsp;</div>
@@ -342,7 +277,7 @@ $stmt_remedio->execute();
                         data-bs-whatever="Consultório">Ver mais</button>
 
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
+                            <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <h2 class="heading"><span>Medicamentos</span> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></h2>
                                     <?php if ($total_remedio > 0): ?>
@@ -350,23 +285,23 @@ $stmt_remedio->execute();
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th>NOME</th>
-                                                        <th>TIPO</th>
-                                                        <th>DOSAGEM</th>
-                                                        <th>APLICAÇÃO</th>
-                                                        <th>FINALIDADE</th>
-                                                        <th>QUANTIDADE</th> 
+                                                        <th><h2>NOME</h2></th>
+                                                        <th><h2>TIPO</h2></th>
+                                                        <th><h2>DOSAGEM</h2></th>
+                                                        <th><h2>APLICAÇÃO</h2></th>
+                                                        <th><h2>FINALIDADE</h2></th>
+                                                        <th><h2>QUANTIDADE</h2></th> 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php while ($medicamento = $stmt_remedio->fetch(PDO::FETCH_ASSOC)):?>
                                                         <tr>
-                                                            <td><?=$medicamento['nome'];?></td>
-                                                            <td><?=$medicamento['tipo'];?></td>
-                                                            <td><?=$medicamento['dosagem'];?></td>
-                                                            <td><?=$medicamento['aplicacao'];?></td>
-                                                            <td><?=$medicamento['finalidade'];?></td>
-                                                            <td><?=$medicamento['quantidade'];?></td>
+                                                            <td><h3><?=$medicamento['nome'];?></h3></td>
+                                                            <td><h3><?=$medicamento['tipo'];?></h3></td>
+                                                            <td><h3><?=$medicamento['dosagem'];?></h3></td>
+                                                            <td><h3><?=$medicamento['aplicacao'];?></h3></td>
+                                                            <td><h3><?=$medicamento['finalidade'];?></h3></td>
+                                                            <td><h3><?=$medicamento['quantidade'];?></h3></td>
                                                         </tr>
                                                     <?php endwhile; ?>
                                                 </tbody>
@@ -380,47 +315,33 @@ $stmt_remedio->execute();
                         </div>
                     </div>       
                 </div>
+                <h3 style="text-align:center" class="m-5 fas fa-map-marker-alt"> medicamentos disponiveis no pronto de socorro Av. Angelo Zanco, Estiva Gerbi - SP</h3>
             </div>
             <div class="col-5">&nbsp;</div>
         </div>
-    </div> 
-        
-
-        <!-- medicamentos section ends -->
-
-        <!-- booking section starts   -->
+    </session>
         <span>
-
+            <!--EXPERIENCIA DO USUARIO-->
             <section class="book" id="book">
-            <br><br>
+                <br><br>
                 <h1 class="heading"> <span>peça ajuda Ou conte sua experiencia</span></h1>
-
                 <div class="row">
-
                     <div style="width:47%">
                         <img src="image/book-img.svg" alt="">
                     </div>
                     <form action="faq.php" method="POST">
                         <h3>faça uma reclamação ou sugestão</h3>
-                        <!--input type="text" placeholder="Seu nome" class="box" name="name2" id="name2"-->
-                        <!--input type="text" name="faq" id="faq" class="box" placeholder="Digite aqui!"-->
                         <textarea name="faq" id="faq" rows="10" class="box" placeholder="Digite aqui!"></textarea>
                         <input type="submit" value="Enviar" class="btn m-1">
                     </form>
                 </div>
-
             </section>
 
-            <!-- booking section ends -->
-
-            <!-- review section starts  -->
-            
+            <!--REVIEW-->
             <section class="review" id="review">
-            <br><br>
+                <br><br>
                 <h1 class="heading"> clientes <span>review</span> </h1>
-
                 <div class="box-container">
-
                     <div class="box">
                         <img src="image/pic-1.jpg" alt="">
                         <h3>Marcos Roberto</h3>
@@ -433,7 +354,6 @@ $stmt_remedio->execute();
                         </div>
                         <p class="text">falta referencia! cade a fonte? terminaram a parte 4? </p>
                     </div>
-
                     <div class="box">
                         <img src="image/pic-2.jpg" alt="">
                         <h3>Leandro Luiz</h3>
@@ -468,23 +388,11 @@ $stmt_remedio->execute();
                         <?php endwhile; ?>
                     <?php endif; ?>
                 </div>
-
             </section>
 
-            <!-- review section ends -->
-
-            <!-- blogs section starts  -->
-
-
-
-            <!-- blogs section ends -->
-
-            <!-- footer section starts  -->
-
             <section class="footer">
-            <br><br>
+                <br><br> <!--MAIS SOBRE-->
                 <div class="box-container">
-
                     <div class="box">
                         <h3>Busca</h3>
                         <a href="#home"> <i class="fas fa-chevron-right"></i> Inicio </a>
@@ -492,35 +400,26 @@ $stmt_remedio->execute();
                         <a href="#about"> <i class="fas fa-chevron-right"></i> Agendamentos </a>
                         <a href="#drugs"> <i class="fas fa-chevron-right"></i> Medicamentos </a>
                         <a href="#review"> <i class="fas fa-chevron-right"></i> Review </a>
-                    </div>
-   
+                    </div> 
                     <div class="box">
                         <h3>Outros serviços</h3>
-                        <a href="#"> <i class="fas fa-chevron-right"></i> Vacinação </a>
-                        <a href="#"> <i class="fas fa-chevron-right"></i> Ambulância </a>
-                        <a href="#"> <i class="fas fa-chevron-right"></i> ficha medica </a>
-                        <a href="#"> <i class="fas fa-chevron-right"></i> farmacias proximas </a>
+                        <a href="#review"> <i class="fas fa-chevron-right"></i> Vacinação </a>
+                        <a href="#review"> <i class="fas fa-chevron-right"></i> Ambulância </a>
+                        <a href="#review"> <i class="fas fa-chevron-right"></i> ficha medica </a>
+                        <a href="#review"> <i class="fas fa-chevron-right"></i> farmacias proximas </a>
 
                     </div>
-
                     <div class="box">
                         <h3>contate-nos</h3>
-                        <a href="#"> <i class="fas fa-phone"></i> +19 98113-1751 </a>
-                        <a href="#"> <i class="fas fa-phone"></i> +19 98608-5124 </a>
-                        <a href="#"> <i class="fas fa-envelope"></i> 4Hcontato@gmail.com </a>
-                        <a href="#"> <i class="fas fa-map-marker-alt"></i> Estiva Gerbi - 13857-000 </a>
+                        <a href="#review"> <i class="fas fa-phone"></i> +19 98113-1751 </a>
+                        <a href="#review"> <i class="fas fa-phone"></i> +19 98608-5124 </a>
+                        <a href="#review"> <i class="fas fa-envelope"></i> 4Hcontato@gmail.com </a>
+                        <a href="#review"> <i class="fas fa-map-marker-alt"></i> Estiva Gerbi - 13857-000 </a>
                     </div>
-
-
                 </div>
-
                 <div class="credit"> Criado por <span>4Health</span> | Etec Pedro Fereira Alves | 2022</div>
-
             </section>
 
-            <!-- footer section ends -->
-
-            <!-- custom js file link  -->
             <script src="js/script.js"></script>
 
             <script src="https://unpkg.com/blip-chat-widget" type="text/javascript"></script>
@@ -535,24 +434,15 @@ $stmt_remedio->execute();
                     }
                 })();
             </script>
-                                            
-            <script>
-                function exper() {
-                    window.alert('Agradecemos seu feedback!');
-                }
-            </script>  
 
             <script>
                 const exampleModal = document.getElementById('exampleModal')
                 exampleModal.addEventListener('show.bs.modal', event => {
-                    // Button that triggered the modal
+
                     const button = event.relatedTarget
-                    // Extract info from data-bs-* attributes
+
                     const recipient = button.getAttribute('data-bs-whatever')
-                    // If necessary, you could initiate an AJAX request here
-                    // and then do the updating in a callback.
-                    //
-                    // Update the modal's content.
+
                     const modalTitle = exampleModal.querySelector('.modal-title')
                     const modalBodyInput = exampleModal.querySelector('.modal-body input')
 
@@ -569,5 +459,4 @@ $stmt_remedio->execute();
                 crossorigin="anonymous"></script>
 
 </body>
-
 </html>
