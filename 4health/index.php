@@ -422,19 +422,7 @@ $stmt_remedio->execute();
 
             <script src="js/script.js"></script>
 
-            <script src="https://unpkg.com/blip-chat-widget" type="text/javascript"></script>
-            <script>
-                (function () {
-                    window.onload = function () {
-                        new BlipChat()
-                        .withAppKey('Y2hhdGJvdDRoZWFsdGg6YjQzZWRjNGUtNDJjZi00MTA2LTg5YmUtZWU4MTUyOTkzMTRj')
-                        .withButton({"color":"#16a085","icon":""})
-                        .withCustomCommonUrl('https://murilo-ramalho-7ginm.chat.blip.ai/')
-                        .build();
-                    }
-                })();
-            </script>
-
+            
             <script>
                 const exampleModal = document.getElementById('exampleModal')
                 exampleModal.addEventListener('show.bs.modal', event => {
